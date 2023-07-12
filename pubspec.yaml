@@ -43,6 +43,8 @@ dependencies:
   cherry_toast: ^1.2.1
   lottie: ^2.3.2
   intl: ^0.18.1
+  file_picker: ^5.3.1
+  firebase_storage: ^11.2.4
 
 dev_dependencies:
   flutter_test:

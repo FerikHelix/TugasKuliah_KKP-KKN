@@ -267,7 +267,7 @@ class Notifikasi {
                         callback();
                       },
                       child: Text(
-                        "Login",
+                        "OK",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 16.sp,

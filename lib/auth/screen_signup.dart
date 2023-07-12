@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:si_kkp_kkn/auth/screen_login.dart';
 import 'package:si_kkp_kkn/constant/alert.dart';
 import 'package:si_kkp_kkn/constant/buttonStyle.dart';
 import 'package:si_kkp_kkn/constant/color.dart';
+import 'package:si_kkp_kkn/constant/extensionCapitalize.dart';
 import 'package:si_kkp_kkn/constant/inputDecoration.dart';
 import 'package:si_kkp_kkn/constant/textStyle.dart';
 import 'package:intl/intl.dart';
@@ -18,6 +18,8 @@ class ScreenSignup extends StatefulWidget {
 }
 
 class _ScreenSignupState extends State<ScreenSignup> {
+  bool isLoading = false;
+
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
@@ -27,6 +29,7 @@ class _ScreenSignupState extends State<ScreenSignup> {
   TextEditingController nim = TextEditingController();
   bool isObscure1 = true;
   bool isObscure2 = true;
+  String role = "mahasiswa";
 
   Future signUp() async {
     if (passwordConfirmed()) {
@@ -42,35 +45,26 @@ class _ScreenSignupState extends State<ScreenSignup> {
           if (userCredentialCustomer.user != null) {
             String uid = userCredentialCustomer.user!.uid;
 
-            FirebaseFirestore.instance
-                .collection('biodata-mahasiswa')
-                .doc(uid)
-                .set({
-              'nama': name.text,
+            FirebaseFirestore.instance.collection('users').doc(uid).set({
+              'namaLengkap': name.text,
               'email': email.text,
               'nim': nim.text,
               'uid': uid,
-              'profilePhoto': "",
+              'role': role,
               'createdAt': DateFormat('yyyy-MM-dd HH:mm:ss').format(
                 DateTime.now(),
               ),
             });
 
-            await FirebaseAuth.instance.signOut();
+            name.clear();
+            email.clear();
+            nim.clear();
+            password.clear();
+            confirmPassword.clear();
 
             // alert berhasil add pegawai
             void callback() {
-              Navigator.pushAndRemoveUntil<dynamic>(
-                context,
-                MaterialPageRoute<dynamic>(
-                  builder: (BuildContext context) {
-                    return const ScreenLogin();
-                  },
-                ),
-                (route) =>
-                    //if you want to disable back feature set to false
-                    false,
-              );
+              Navigator.of(context).pop();
             }
 
             // ignore: use_build_context_synchronously
@@ -180,7 +174,7 @@ class _ScreenSignupState extends State<ScreenSignup> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Sign up",
+                      "Buat Akun",
                       style: CustomTextStyle.heading.copyWith(
                           fontWeight: FontWeight.w700, fontSize: 24.sp),
                     ),
@@ -270,6 +264,57 @@ class _ScreenSignupState extends State<ScreenSignup> {
                       height: 15.h,
                     ),
                     Text(
+                      "Role",
+                      style: CustomTextStyle.heading.copyWith(
+                          fontWeight: FontWeight.w500, fontSize: 15.sp),
+                    ),
+                    SizedBox(
+                      height: 5.h,
+                    ),
+                    Container(
+                      height: 50.0,
+                      decoration: BoxDecoration(
+                        color: CustomColor.secondaryColor,
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        value: role,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            role = newValue!;
+                          });
+                        },
+                        dropdownColor: CustomColor.secondaryColor,
+                        icon: Icon(
+                          Icons.arrow_drop_down,
+                          color: CustomColor.black,
+                        ),
+                        style: TextStyle(
+                          color: CustomColor.black,
+                          fontSize: 16.0,
+                        ),
+                        underline: Container(),
+                        items: <String>[
+                          'mahasiswa',
+                          'kaprodi',
+                          'dospem',
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10.0),
+                              child: Text(value),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15.h,
+                    ),
+                    Text(
                       "Password",
                       style: CustomTextStyle.heading.copyWith(
                           fontWeight: FontWeight.w500, fontSize: 15.sp),
@@ -353,42 +398,53 @@ class _ScreenSignupState extends State<ScreenSignup> {
                       width: double.infinity,
                       height: 50.h,
                       child: ElevatedButton(
-                        onPressed: () {
-                          signUp();
+                        onPressed: () async {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          await signUp();
+                          setState(() {
+                            isLoading = false;
+                          });
                         },
                         style: CustomButton.primaryButton,
-                        child: Text(
-                          "Sigup",
-                          style: CustomTextStyle.heading
-                              .copyWith(color: CustomColor.black),
-                        ),
+                        child: isLoading == false
+                            ? Text(
+                                "Buat Akun",
+                                style: CustomTextStyle.heading
+                                    .copyWith(color: CustomColor.black),
+                              )
+                            : Center(
+                                child: CircularProgressIndicator(
+                                    color: CustomColor.white),
+                              ),
                       ),
                     ),
                     SizedBox(
                       height: 3.h,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Have account?",
-                          style: CustomTextStyle.paraghraph,
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) => const ScreenLogin()),
-                            );
-                          },
-                          child: Text(
-                            "Login",
-                            style: CustomTextStyle.paraghraph
-                                .copyWith(fontWeight: FontWeight.w700),
-                          ),
-                        ),
-                      ],
-                    )
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: [
+                    //     Text(
+                    //       "Have account?",
+                    //       style: CustomTextStyle.paraghraph,
+                    //     ),
+                    //     TextButton(
+                    //       onPressed: () {
+                    //         Navigator.of(context).push(
+                    //           MaterialPageRoute(
+                    //               builder: (context) => const ScreenLogin()),
+                    //         );
+                    //       },
+                    //       child: Text(
+                    //         "Login",
+                    //         style: CustomTextStyle.paraghraph
+                    //             .copyWith(fontWeight: FontWeight.w700),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // )
                   ],
                 ),
               ),

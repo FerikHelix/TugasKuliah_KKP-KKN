@@ -76,7 +76,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
         if (userCredential.user != null) {
           // untuk menutup loading
           // ignore: use_build_context_synchronously
-          Navigator.of(context, rootNavigator: true).pop();
+          Navigator.of(context).pop();
           // ignore: use_build_context_synchronously
           Navigator.pushAndRemoveUntil<dynamic>(
             context,
@@ -255,32 +255,32 @@ class _ScreenLoginState extends State<ScreenLogin> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 3.h,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Don't have an account yet?",
-                          style: CustomTextStyle.paraghraph,
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const ScreenSignup()),
-                            );
-                          },
-                          child: Text(
-                            "Sign up now",
-                            style: CustomTextStyle.paraghraph
-                                .copyWith(fontWeight: FontWeight.w700),
-                          ),
-                        ),
-                      ],
-                    )
+                    // SizedBox(
+                    //   height: 3.h,
+                    // ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: [
+                    //     Text(
+                    //       "Don't have an account yet?",
+                    //       style: CustomTextStyle.paraghraph,
+                    //     ),
+                    //     TextButton(
+                    //       onPressed: () {
+                    //         Navigator.push(
+                    //           context,
+                    //           MaterialPageRoute(
+                    //               builder: (context) => const ScreenSignup()),
+                    //         );
+                    //       },
+                    //       child: Text(
+                    //         "Sign up now",
+                    //         style: CustomTextStyle.paraghraph
+                    //             .copyWith(fontWeight: FontWeight.w700),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // )
                   ],
                 ),
               ),
