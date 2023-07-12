@@ -34,7 +34,7 @@ class _DetailState extends State<Detail> {
 
     if (result != null) {
       fileName = result.files.single.name;
-      file = File(result.files.single.name);
+      file = File(result.files.single.path!);
       setState(() {});
     }
   }
@@ -275,6 +275,7 @@ class _DetailState extends State<Detail> {
                                       setState(() {
                                         isLoading = true;
                                       });
+
                                       if (fileName != null || file != null) {
                                         var reference = FirebaseStorage.instance
                                             .ref()
@@ -287,7 +288,7 @@ class _DetailState extends State<Detail> {
                                           String url =
                                               await reference.getDownloadURL();
 
-                                          print(url);
+                                          debugPrint(url);
 
                                           if (url.isNotEmpty) {
                                             FirebaseFirestore.instance
@@ -295,21 +296,32 @@ class _DetailState extends State<Detail> {
                                                 .doc(FirebaseAuth
                                                     .instance.currentUser!.uid)
                                                 .update({"pdf": url});
+                                            // ignore: use_build_context_synchronously
+                                            MyCustomToast.successToast(context,
+                                                "Berhasil mengirim laporan");
+                                            setState(() {
+                                              fileName = null;
+                                              file == null;
+                                              isLoading = false;
+                                            });
+                                          } else {
+                                            setState(() {
+                                              isLoading = false;
+                                            });
                                           }
                                         } on FirebaseException catch (_) {
                                           // ignore: use_build_context_synchronously
                                           MyCustomToast.errorToast(context,
                                               "Gagal mengirim laporan");
+                                          setState(() {
+                                            isLoading = false;
+                                          });
                                         }
                                       } else {
                                         MyCustomToast.errorToast(
                                             context, "Anda belum memilih file");
                                       }
-                                    } else {
-                                      setState(() {
-                                        isLoading = false;
-                                      });
-                                    }
+                                    } else {}
                                   },
                                   style: CustomButton.primaryButton,
                                   child: isLoading == false
