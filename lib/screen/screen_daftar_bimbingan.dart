@@ -4,22 +4,26 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:si_kkp_kkn/constant/color.dart';
 import 'package:si_kkp_kkn/constant/extensionCapitalize.dart';
 import 'package:si_kkp_kkn/constant/textStyle.dart';
-import 'package:si_kkp_kkn/screen/screen_detail_kkpdankkn.dart';
+import 'package:si_kkp_kkn/screen/screen_bimbingan.dart';
+import 'package:si_kkp_kkn/screen/screen_select_dosen.dart';
 
-class ScreenListKKPKKN extends StatefulWidget {
-  const ScreenListKKPKKN({super.key});
+class ScreenDaftarBimbingan extends StatefulWidget {
+  final String namaLengkap;
+  const ScreenDaftarBimbingan({super.key, required this.namaLengkap});
 
   @override
-  State<ScreenListKKPKKN> createState() => _ScreenListKKPKKNState();
+  State<ScreenDaftarBimbingan> createState() => _ScreenDaftarBimbinganState();
 }
 
-class _ScreenListKKPKKNState extends State<ScreenListKKPKKN> {
+class _ScreenDaftarBimbinganState extends State<ScreenDaftarBimbingan> {
   Stream? getallkkpdankkn;
   @override
   void initState() {
     super.initState();
-    getallkkpdankkn =
-        FirebaseFirestore.instance.collection("daftar-kkn-kkp").snapshots();
+    getallkkpdankkn = FirebaseFirestore.instance
+        .collection("daftar-kkn-kkp")
+        .where("dospem", isEqualTo: widget.namaLengkap)
+        .snapshots();
   }
 
   @override
@@ -41,7 +45,7 @@ class _ScreenListKKPKKNState extends State<ScreenListKKPKKN> {
           ),
         ),
         title: Text(
-          "Daftar KKP & KKN",
+          "Daftar Bimbingan",
           style: CustomTextStyle.heading
               .copyWith(fontWeight: FontWeight.w700, fontSize: 18.sp),
         ),
@@ -83,36 +87,44 @@ class _ScreenListKKPKKNState extends State<ScreenListKKPKKN> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ScreenDetailKKPDANKKN(
-                                    dospem: semudata[a]['dospem'],
-                                    namaAnggota:
-                                        semudata[a]['namaAnggota'] ?? [],
-                                    pdf: semudata[a]['pdf'],
-                                    pdfName: semudata[a]['pdfName'],
-                                    tipe: semudata[a]['tipe'],
-                                    waktuMulai: semudata[a]['waktuMulai'],
-                                    waktuBerakhir: semudata[a]['waktuBerakhir'],
-                                    alamatInstansi:
-                                        semudata[a]['alamatInstansi'] ?? "-",
-                                    alamatPerusahaan:
-                                        semudata[a]['alamatPerusahaan'] ?? "-",
-                                    bidangKerja:
-                                        semudata[a]['bidangKerja'] ?? "-",
-                                    bentukKegiatan:
-                                        semudata[a]['bentukKegiatan'] ?? "-",
-                                    komentar: semudata[a]['komentar'] ?? "-",
-                                    nama: semudata[a]['nama'] ?? "-",
-                                    namaInstansi:
-                                        semudata[a]['namaInstansi'] ?? "-",
-                                    namaPerusahaan:
-                                        semudata[a]['namaPerusahaan'] ?? "-",
-                                    nameKetua: semudata[a]['namaKetua'] ?? "-",
-                                    nilai: semudata[a]['nilai'] ?? "-",
-                                    pembimbingLapangan: semudata[a]
-                                            ['pembimbingLapangan'] ??
-                                        "-",
-                                  ),
-                                ),
+                                    builder: (context) => ScreenBimbingan(
+                                          uid: semudata[a]['id'],
+                                          dospem: semudata[a]['dospem'],
+                                          namaAnggota:
+                                              semudata[a]['namaAnggota'] ?? [],
+                                          pdf: semudata[a]['pdf'],
+                                          pdfName: semudata[a]['pdfName'],
+                                          tipe: semudata[a]['tipe'],
+                                          waktuMulai: semudata[a]['waktuMulai'],
+                                          waktuBerakhir: semudata[a]
+                                              ['waktuBerakhir'],
+                                          alamatInstansi: semudata[a]
+                                                  ['alamatInstansi'] ??
+                                              "-",
+                                          alamatPerusahaan: semudata[a]
+                                                  ['alamatPerusahaan'] ??
+                                              "-",
+                                          bidangKerja:
+                                              semudata[a]['bidangKerja'] ?? "-",
+                                          bentukKegiatan: semudata[a]
+                                                  ['bentukKegiatan'] ??
+                                              "-",
+                                          komentar:
+                                              semudata[a]['komentar'] ?? "-",
+                                          nama: semudata[a]['nama'] ?? "-",
+                                          namaInstansi: semudata[a]
+                                                  ['namaInstansi'] ??
+                                              "-",
+                                          namaPerusahaan: semudata[a]
+                                                  ['namaPerusahaan'] ??
+                                              "-",
+                                          nameKetua:
+                                              semudata[a]['namaKetua'] ?? "-",
+                                          nilai: semudata[a]['nilai'] ?? "-",
+                                          pembimbingLapangan: semudata[a]
+                                                  ['pembimbingLapangan'] ??
+                                              "-",
+                                        )),
                               );
                             },
                             child: Stack(

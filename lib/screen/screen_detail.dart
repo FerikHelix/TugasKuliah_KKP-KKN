@@ -105,7 +105,7 @@ class _DetailState extends State<Detail> {
             width: size.width,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 30.h),
-              child: dospem == ""
+              child: ceking == false
                   ? Padding(
                       padding: const EdgeInsets.only(top: 250.0),
                       child: SizedBox(
@@ -122,7 +122,7 @@ class _DetailState extends State<Detail> {
                               height: 15.h,
                             ),
                             Text(
-                              "Anda belum memiliki dosen pembimbing",
+                              "Anda Belum Terdaftar di KKP/KKN",
                               textAlign: TextAlign.center,
                               style: CustomTextStyle.heading.copyWith(
                                   color: CustomColor.black,
@@ -133,8 +133,35 @@ class _DetailState extends State<Detail> {
                         ),
                       ),
                     )
-                  : ceking != false
-                      ? Form(
+                  : dospem == ""
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 250.0),
+                          child: SizedBox(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.error_rounded,
+                                  color: Colors.red,
+                                  size: 60.sp,
+                                ),
+                                SizedBox(
+                                  height: 15.h,
+                                ),
+                                Text(
+                                  "Anda belum memiliki dosen pembimbing",
+                                  textAlign: TextAlign.center,
+                                  style: CustomTextStyle.heading.copyWith(
+                                      color: CustomColor.black,
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500),
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      : Form(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -372,33 +399,6 @@ class _DetailState extends State<Detail> {
                                 ),
                               ),
                             ],
-                          ),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.only(top: 250.0),
-                          child: SizedBox(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.error_rounded,
-                                  color: Colors.red,
-                                  size: 60.sp,
-                                ),
-                                SizedBox(
-                                  height: 15.h,
-                                ),
-                                Text(
-                                  "Anda Belum Terdaftar di KKP/KKN",
-                                  textAlign: TextAlign.center,
-                                  style: CustomTextStyle.heading.copyWith(
-                                      color: CustomColor.black,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w500),
-                                )
-                              ],
-                            ),
                           ),
                         ),
             ),

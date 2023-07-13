@@ -41,7 +41,7 @@ class _ScreenListingKKPKKNState extends State<ScreenListingKKPKKN> {
           ),
         ),
         title: Text(
-          "Daftar KKP & KKN",
+          "Tetapkan Dospem",
           style: CustomTextStyle.heading
               .copyWith(fontWeight: FontWeight.w700, fontSize: 18.sp),
         ),
@@ -76,197 +76,205 @@ class _ScreenListingKKPKKNState extends State<ScreenListingKKPKKN> {
                   return Column(
                     children: [
                       for (int a = 0; a < semudata.length; a++) ...{
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ScreenSelectDosen(
-                                        uid: semudata[a]['id'],
-                                      )),
-                            );
-                          },
-                          child: Stack(
-                            children: [
-                              ClipRRect(
-                                child: Container(
-                                  width: double.infinity,
-                                  height: 180.h,
-                                  decoration: BoxDecoration(
-                                    color: CustomColor.primaryColor,
-                                    borderRadius: BorderRadius.circular(5),
+                        Padding(
+                          padding: EdgeInsets.only(top: 10.h),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ScreenSelectDosen(
+                                          uid: semudata[a]['id'],
+                                        )),
+                              );
+                            },
+                            child: Stack(
+                              children: [
+                                ClipRRect(
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 180.h,
+                                    decoration: BoxDecoration(
+                                      color: CustomColor.primaryColor,
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Positioned(
-                                bottom: 5.h,
-                                right: 15.w,
-                                child: Icon(
-                                  Icons.person_rounded,
-                                  size: 50.h,
-                                  color: CustomColor.white,
+                                Positioned(
+                                  bottom: 5.h,
+                                  right: 15.w,
+                                  child: Icon(
+                                    Icons.person_rounded,
+                                    size: 50.h,
+                                    color: CustomColor.white,
+                                  ),
                                 ),
-                              ),
-                              Positioned(
-                                left: -35.w,
-                                bottom: -35.h,
-                                child: CircleAvatar(
-                                  radius: 70.r,
-                                  backgroundColor:
-                                      CustomColor.black.withOpacity(0.2),
+                                Positioned(
+                                  left: -35.w,
+                                  bottom: -35.h,
                                   child: CircleAvatar(
-                                    radius: 48.r,
-                                    backgroundColor: CustomColor.primaryColor,
+                                    radius: 70.r,
+                                    backgroundColor:
+                                        CustomColor.black.withOpacity(0.2),
+                                    child: CircleAvatar(
+                                      radius: 48.r,
+                                      backgroundColor: CustomColor.primaryColor,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Positioned(
-                                top: 5.h,
-                                left: 10.w,
-                                child: SizedBox(
-                                  width: 230.w,
-                                  child: Text(
-                                    semudata[a]['tipe']
-                                        .toString()
-                                        .toUpperCase(),
-                                    style: CustomTextStyle.header.copyWith(
-                                        color: CustomColor.white,
-                                        fontSize: 14.sp),
+                                Positioned(
+                                  top: 5.h,
+                                  left: 10.w,
+                                  child: SizedBox(
+                                    width: 230.w,
+                                    child: Text(
+                                      semudata[a]['tipe']
+                                          .toString()
+                                          .toUpperCase(),
+                                      style: CustomTextStyle.header.copyWith(
+                                          color: CustomColor.white,
+                                          fontSize: 14.sp),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              semudata[a]['tipe'] == "kkn"
-                                  ? Positioned(
-                                      top: 33.h,
-                                      left: 10.w,
-                                      child: SizedBox(
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              semudata[a]['namaKetua']
-                                                  .toString()
-                                                  .capitalize(),
-                                              style: CustomTextStyle.header
-                                                  .copyWith(
-                                                      color: CustomColor.white,
-                                                      fontSize: 20.sp),
-                                            ),
-                                            for (int b = 0;
-                                                b <
-                                                    semudata[a]['namaAnggota']
-                                                        .length;
-                                                b++) ...{
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(left: 6.w),
-                                                child: Text(
-                                                  ", ${semudata[a]['namaAnggota'][b].toString().capitalize()}",
-                                                  style: CustomTextStyle.header
-                                                      .copyWith(
-                                                          color:
-                                                              CustomColor.white,
-                                                          fontSize: 20.sp),
-                                                ),
+                                semudata[a]['tipe'] == "kkn"
+                                    ? Positioned(
+                                        top: 33.h,
+                                        left: 10.w,
+                                        child: SizedBox(
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                semudata[a]['namaKetua']
+                                                    .toString()
+                                                    .capitalize(),
+                                                style: CustomTextStyle.header
+                                                    .copyWith(
+                                                        color:
+                                                            CustomColor.white,
+                                                        fontSize: 20.sp),
                                               ),
-                                            }
-                                          ],
+                                              for (int b = 0;
+                                                  b <
+                                                      semudata[a]['namaAnggota']
+                                                          .length;
+                                                  b++) ...{
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      left: 6.w),
+                                                  child: Text(
+                                                    ", ${semudata[a]['namaAnggota'][b].toString().capitalize()}",
+                                                    style: CustomTextStyle
+                                                        .header
+                                                        .copyWith(
+                                                            color: CustomColor
+                                                                .white,
+                                                            fontSize: 20.sp),
+                                                  ),
+                                                ),
+                                              }
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    )
-                                  : Positioned(
-                                      top: 33.h,
-                                      left: 10.w,
-                                      child: SizedBox(
-                                        child: Text(
-                                          semudata[a]['nama']
+                                      )
+                                    : Positioned(
+                                        top: 33.h,
+                                        left: 10.w,
+                                        child: SizedBox(
+                                          child: Text(
+                                            semudata[a]['nama']
+                                                .toString()
+                                                .capitalize(),
+                                            style: CustomTextStyle.header
+                                                .copyWith(
+                                                    color: CustomColor.white,
+                                                    fontSize: 20.sp),
+                                          ),
+                                        )),
+                                Positioned(
+                                  right: -65.w,
+                                  top: -65.h,
+                                  child: CircleAvatar(
+                                    radius: 70.r,
+                                    backgroundColor:
+                                        CustomColor.black.withOpacity(0.2),
+                                    child: CircleAvatar(
+                                      radius: 48.r,
+                                      backgroundColor: CustomColor.primaryColor,
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 85.h,
+                                  left: 10.w,
+                                  child: SizedBox(
+                                    child: Text(
+                                      semudata[a]['tipe'] == "kkn"
+                                          ? semudata[a]['namaInstansi']
+                                          : semudata[a]['namaPerusahaan'],
+                                      style: CustomTextStyle.header.copyWith(
+                                          color: CustomColor.white,
+                                          fontSize: 20.sp),
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 42.h,
+                                  left: 10.w,
+                                  child: SizedBox(
+                                    child: Text(
+                                      semudata[a]['dospem'] == ""
+                                          ? "-"
+                                          : "Dospem : ${semudata[a]['dospem'].toString().capitalize()}",
+                                      style: CustomTextStyle.header.copyWith(
+                                          color: CustomColor.white,
+                                          fontSize: 14.sp),
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 15.h,
+                                  left: 10.w,
+                                  child: SizedBox(
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          semudata[a]['waktuMulai']
                                               .toString()
                                               .capitalize(),
                                           style: CustomTextStyle.header
                                               .copyWith(
                                                   color: CustomColor.white,
-                                                  fontSize: 20.sp),
+                                                  fontSize: 14.sp),
                                         ),
-                                      )),
-                              Positioned(
-                                right: -65.w,
-                                top: -65.h,
-                                child: CircleAvatar(
-                                  radius: 70.r,
-                                  backgroundColor:
-                                      CustomColor.black.withOpacity(0.2),
-                                  child: CircleAvatar(
-                                    radius: 48.r,
-                                    backgroundColor: CustomColor.primaryColor,
+                                        SizedBox(
+                                          width: 6.w,
+                                        ),
+                                        Text(
+                                          "s/d".toString().capitalize(),
+                                          style: CustomTextStyle.header
+                                              .copyWith(
+                                                  color: CustomColor.white,
+                                                  fontSize: 14.sp),
+                                        ),
+                                        SizedBox(
+                                          width: 6.w,
+                                        ),
+                                        Text(
+                                          semudata[a]['waktuBerakhir']
+                                              .toString()
+                                              .capitalize(),
+                                          style: CustomTextStyle.header
+                                              .copyWith(
+                                                  color: CustomColor.white,
+                                                  fontSize: 14.sp),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Positioned(
-                                top: 85.h,
-                                left: 10.w,
-                                child: SizedBox(
-                                  child: Text(
-                                    semudata[a]['tipe'] == "kkn"
-                                        ? semudata[a]['namaInstansi']
-                                        : semudata[a]['namaPerusahaan'],
-                                    style: CustomTextStyle.header.copyWith(
-                                        color: CustomColor.white,
-                                        fontSize: 20.sp),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 42.h,
-                                left: 10.w,
-                                child: SizedBox(
-                                  child: Text(
-                                    semudata[a]['dospem'] == ""
-                                        ? "-"
-                                        : "Dospem : ${semudata[a]['dospem'].toString().capitalize()}",
-                                    style: CustomTextStyle.header.copyWith(
-                                        color: CustomColor.white,
-                                        fontSize: 14.sp),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 15.h,
-                                left: 10.w,
-                                child: SizedBox(
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        semudata[a]['waktuMulai']
-                                            .toString()
-                                            .capitalize(),
-                                        style: CustomTextStyle.header.copyWith(
-                                            color: CustomColor.white,
-                                            fontSize: 14.sp),
-                                      ),
-                                      SizedBox(
-                                        width: 6.w,
-                                      ),
-                                      Text(
-                                        "s/d".toString().capitalize(),
-                                        style: CustomTextStyle.header.copyWith(
-                                            color: CustomColor.white,
-                                            fontSize: 14.sp),
-                                      ),
-                                      SizedBox(
-                                        width: 6.w,
-                                      ),
-                                      Text(
-                                        semudata[a]['waktuBerakhir']
-                                            .toString()
-                                            .capitalize(),
-                                        style: CustomTextStyle.header.copyWith(
-                                            color: CustomColor.white,
-                                            fontSize: 14.sp),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       }

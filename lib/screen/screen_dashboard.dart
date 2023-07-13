@@ -7,6 +7,7 @@ import 'package:si_kkp_kkn/auth/screen_signup.dart';
 import 'package:si_kkp_kkn/constant/color.dart';
 import 'package:si_kkp_kkn/constant/extensionCapitalize.dart';
 import 'package:si_kkp_kkn/constant/textStyle.dart';
+import 'package:si_kkp_kkn/screen/screen_daftar_bimbingan.dart';
 import 'package:si_kkp_kkn/screen/screen_daftar_kkn.dart';
 import 'package:si_kkp_kkn/screen/screen_daftar_kkp.dart';
 import 'package:si_kkp_kkn/screen/screen_detail.dart';
@@ -396,9 +397,11 @@ class _ScreenDashboardState extends State<ScreenDashboard> {
                                 ),
                               )
                             : const SizedBox(),
-                        SizedBox(
-                          height: 15.h,
-                        ),
+                        data['role'] == "kaprodi"
+                            ? SizedBox(
+                                height: 15.h,
+                              )
+                            : const SizedBox(),
                         data['role'] == "kaprodi"
                             ? GestureDetector(
                                 onTap: () {
@@ -477,9 +480,96 @@ class _ScreenDashboardState extends State<ScreenDashboard> {
                                 ),
                               )
                             : const SizedBox(),
-                        SizedBox(
-                          height: 15.h,
-                        ),
+                        data['role'] == "dospem"
+                            ? SizedBox(
+                                height: 15.h,
+                              )
+                            : const SizedBox(),
+                        data['role'] == "dospem"
+                            ? GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      (MaterialPageRoute(
+                                        builder: (context) =>
+                                            ScreenDaftarBimbingan(
+                                          namaLengkap: data['namaLengkap'],
+                                        ),
+                                      )));
+                                },
+                                child: Stack(
+                                  children: [
+                                    ClipRRect(
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: 180.h,
+                                        decoration: BoxDecoration(
+                                          color: CustomColor.primaryColor,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 5.h,
+                                      left: 10.w,
+                                      child: SizedBox(
+                                        width: 230.w,
+                                        child: Text(
+                                          "Daftar Bimbingan",
+                                          style: CustomTextStyle.header
+                                              .copyWith(
+                                                  color: CustomColor.white,
+                                                  fontSize: 20.sp),
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      bottom: 5.h,
+                                      right: 15.w,
+                                      child: Icon(
+                                        Icons.person_rounded,
+                                        size: 50.h,
+                                        color: CustomColor.white,
+                                      ),
+                                    ),
+                                    Positioned(
+                                      left: -35.w,
+                                      bottom: -35.h,
+                                      child: CircleAvatar(
+                                        radius: 70.r,
+                                        backgroundColor:
+                                            CustomColor.black.withOpacity(0.2),
+                                        child: CircleAvatar(
+                                          radius: 48.r,
+                                          backgroundColor:
+                                              CustomColor.primaryColor,
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: -65.w,
+                                      top: -65.h,
+                                      child: CircleAvatar(
+                                        radius: 70.r,
+                                        backgroundColor:
+                                            CustomColor.black.withOpacity(0.2),
+                                        child: CircleAvatar(
+                                          radius: 48.r,
+                                          backgroundColor:
+                                              CustomColor.primaryColor,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : const SizedBox(),
+                        data['role'] == "kaprodi"
+                            ? SizedBox(
+                                height: 15.h,
+                              )
+                            : const SizedBox(),
                         data['role'] == "kaprodi"
                             ? GestureDetector(
                                 onTap: () {
@@ -558,9 +648,11 @@ class _ScreenDashboardState extends State<ScreenDashboard> {
                                 ),
                               )
                             : const SizedBox(),
-                        SizedBox(
-                          height: 15.h,
-                        ),
+                        data['role'] == "kaprodi"
+                            ? SizedBox(
+                                height: 15.h,
+                              )
+                            : const SizedBox(),
                         data['role'] == "kaprodi"
                             ? GestureDetector(
                                 onTap: () {
