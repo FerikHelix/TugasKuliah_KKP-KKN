@@ -463,7 +463,8 @@ class _ScreenDaftarKKNState extends State<ScreenDaftarKKN> {
                                       "waktuBerakhir": waktuBerakhir.text,
                                       "dospem": "",
                                       "pdf": "",
-                                      "tipe": "kkn"
+                                      "tipe": "kkn",
+                                      "pdfName": ""
                                     });
                                     // ignore: use_build_context_synchronously
                                     MyCustomToast.successToast(

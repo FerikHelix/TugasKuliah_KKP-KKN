@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:si_kkp_kkn/constant/alert.dart';
 import 'package:si_kkp_kkn/constant/buttonStyle.dart';
 import 'package:si_kkp_kkn/constant/color.dart';
 import 'package:si_kkp_kkn/constant/custom_toast.dart';
@@ -23,6 +24,8 @@ class _DetailState extends State<Detail> {
   bool ceking = false;
   bool isLoading = false;
   String dospem = "";
+  String filePdf = "";
+  String pdfDrDB = "";
   String? fileName;
   File? file;
 
@@ -39,11 +42,8 @@ class _DetailState extends State<Detail> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-
-    FirebaseFirestore.instance
+  void fungsiDrdb() async {
+    await FirebaseFirestore.instance
         .collection("daftar-kkn-kkp")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get()
@@ -51,6 +51,8 @@ class _DetailState extends State<Detail> {
       setState(() {
         ceking = value.exists;
         dospem = value.data()!['dospem'];
+        filePdf = value.data()!['pdf'];
+        pdfDrDB = value.data()!['pdfName'];
         if (value.data()!['nilai'] == null) {
           nilai.text = "-";
         } else {
@@ -63,6 +65,12 @@ class _DetailState extends State<Detail> {
         }
       });
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fungsiDrdb();
   }
 
   @override
@@ -156,30 +164,54 @@ class _DetailState extends State<Detail> {
                                       child: Padding(
                                         padding:
                                             const EdgeInsets.only(left: 8.0),
-                                        child: fileName == null
+                                        child: pdfDrDB != ""
                                             ? Text(
-                                                "Choose File",
+                                                pdfDrDB,
                                                 style: TextStyle(
                                                     color: CustomColor.black,
                                                     fontSize: 14,
                                                     fontWeight:
                                                         FontWeight.w500),
                                               )
-                                            : Text(
-                                                fileName.toString(),
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    color: CustomColor.black,
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
+                                            : fileName == null
+                                                ? Text(
+                                                    "Choose File",
+                                                    style: TextStyle(
+                                                        color:
+                                                            CustomColor.black,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  )
+                                                : Text(
+                                                    fileName.toString(),
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        color:
+                                                            CustomColor.black,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
                                       ),
                                     ),
                                     GestureDetector(
                                       onTap: () async {
-                                        await _pickFileAndUpload();
+                                        calback() {
+                                          Navigator.of(context).pop();
+                                        }
+
+                                        if (pdfDrDB == "") {
+                                          await _pickFileAndUpload();
+                                        } else {
+                                          Notifikasi.questionAlert(
+                                              context,
+                                              "Perbarui laporan yang sudah ada?",
+                                              calback,
+                                              _pickFileAndUpload);
+                                        }
                                       },
                                       child: Container(
                                         width: 110.w,
@@ -295,7 +327,10 @@ class _DetailState extends State<Detail> {
                                                 .collection("daftar-kkn-kkp")
                                                 .doc(FirebaseAuth
                                                     .instance.currentUser!.uid)
-                                                .update({"pdf": url});
+                                                .update({
+                                              "pdf": url,
+                                              "pdfName": fileName
+                                            });
                                             // ignore: use_build_context_synchronously
                                             MyCustomToast.successToast(context,
                                                 "Berhasil mengirim laporan");
@@ -304,6 +339,7 @@ class _DetailState extends State<Detail> {
                                               file == null;
                                               isLoading = false;
                                             });
+                                            fungsiDrdb();
                                           } else {
                                             setState(() {
                                               isLoading = false;

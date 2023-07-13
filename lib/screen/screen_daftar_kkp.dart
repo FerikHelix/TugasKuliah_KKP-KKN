@@ -19,6 +19,7 @@ class ScreenDaftarKKP extends StatefulWidget {
 class _ScreenDaftarKKPState extends State<ScreenDaftarKKP> {
   bool isLoading = false;
   TextEditingController companyName = TextEditingController();
+  TextEditingController nama = TextEditingController();
   TextEditingController companyAddress = TextEditingController();
   TextEditingController bidangKerja = TextEditingController();
   TextEditingController mentorInCompany = TextEditingController();
@@ -89,6 +90,32 @@ class _ScreenDaftarKKPState extends State<ScreenDaftarKKP> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          Text(
+                            "Nama Anda",
+                            style: CustomTextStyle.heading.copyWith(
+                                fontWeight: FontWeight.w500, fontSize: 15.sp),
+                          ),
+                          SizedBox(
+                            height: 5.h,
+                          ),
+                          Container(
+                            height: 50.h,
+                            decoration: BoxDecoration(
+                              color: CustomColor.secondaryColor,
+                              borderRadius: BorderRadius.circular(5.r),
+                            ),
+                            child: TextFormField(
+                              autofocus: false,
+                              controller: nama,
+                              decoration:
+                                  CustomInputDecoration.primary.copyWith(
+                                hintText: "Masukkan nama anda",
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 15.h,
+                          ),
                           Text(
                             "Nama Perusahaan",
                             style: CustomTextStyle.heading.copyWith(
@@ -315,7 +342,8 @@ class _ScreenDaftarKKPState extends State<ScreenDaftarKKP> {
                             child: ElevatedButton(
                               onPressed: () async {
                                 if (isLoading == false) {
-                                  if (companyName.text.isNotEmpty &&
+                                  if (nama.text.isNotEmpty &&
+                                      companyName.text.isNotEmpty &&
                                       companyAddress.text.isNotEmpty &&
                                       bidangKerja.text.isNotEmpty &&
                                       mentorInCompany.text.isNotEmpty &&
@@ -329,6 +357,7 @@ class _ScreenDaftarKKPState extends State<ScreenDaftarKKP> {
                                         .doc(FirebaseAuth
                                             .instance.currentUser!.uid)
                                         .set({
+                                      "nama": nama.text,
                                       "iddoc": FirebaseAuth
                                           .instance.currentUser!.uid,
                                       "namaPerusahaan": companyName.text,
@@ -340,12 +369,14 @@ class _ScreenDaftarKKPState extends State<ScreenDaftarKKP> {
                                       "waktuBerakhir": waktuBerakhir.text,
                                       "dospem": "",
                                       "pdf": "",
+                                      "pdfName": "",
                                       "tipe": "kkp"
                                     });
                                     // ignore: use_build_context_synchronously
                                     MyCustomToast.successToast(
                                         context, "Berhasil mendaftar KKP");
                                     setState(() {
+                                      nama.clear();
                                       isLoading = false;
                                       companyName.clear();
                                       companyAddress.clear();
