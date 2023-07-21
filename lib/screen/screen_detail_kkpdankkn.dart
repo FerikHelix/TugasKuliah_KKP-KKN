@@ -23,6 +23,7 @@ class ScreenDetailKKPDANKKN extends StatefulWidget {
   final String nama;
   final String namaPerusahaan;
   final String pembimbingLapangan;
+  final List lampiran;
   const ScreenDetailKKPDANKKN(
       {super.key,
       required this.nameKetua,
@@ -42,7 +43,8 @@ class ScreenDetailKKPDANKKN extends StatefulWidget {
       required this.bidangKerja,
       required this.nama,
       required this.namaPerusahaan,
-      required this.pembimbingLapangan});
+      required this.pembimbingLapangan,
+      required this.lampiran});
 
   @override
   State<ScreenDetailKKPDANKKN> createState() => _ScreenDetailKKPDANKKNState();
@@ -296,6 +298,64 @@ class _ScreenDetailKKPDANKKNState extends State<ScreenDetailKKPDANKKN> {
                               keyboardType: TextInputType.none,
                               decoration:
                                   CustomInputDecoration.primary.copyWith(),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 15.h,
+                          ),
+                          Text(
+                            "Lampiran",
+                            style: CustomTextStyle.heading.copyWith(
+                                fontWeight: FontWeight.w500, fontSize: 15.sp),
+                          ),
+                          SizedBox(
+                            height: 5.h,
+                          ),
+                          Container(
+                            width: double.infinity,
+                            height: 140.h,
+                            decoration: BoxDecoration(
+                              color: CustomColor.secondaryColor,
+                              borderRadius: BorderRadius.circular(5.r),
+                            ),
+                            child: ListView.builder(
+                              itemCount: widget.lampiran.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (BuildContext context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(left: 10.w),
+                                  child: SizedBox(
+                                    child: Stack(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10.r),
+                                          child: Image.network(
+                                            widget.lampiran[index],
+                                            fit: BoxFit.cover,
+                                            width: 150,
+                                            height: 150,
+                                          ),
+                                        ),
+                                        // Align(
+                                        //   alignment:
+                                        //       Alignment.topRight,
+                                        //   child: GestureDetector(
+                                        //     onTap: () {
+                                        //        _removeImage(index);
+                                        //     },
+                                        //     child: Icon(
+                                        //       Icons.cancel_rounded,
+                                        //       size: 38.sp,
+                                        //       color: Colors.red,
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                           SizedBox(
@@ -603,6 +663,64 @@ class _ScreenDetailKKPDANKKNState extends State<ScreenDetailKKPDANKKN> {
                               keyboardType: TextInputType.none,
                               decoration:
                                   CustomInputDecoration.primary.copyWith(),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 15.h,
+                          ),
+                          Text(
+                            "Lampiran",
+                            style: CustomTextStyle.heading.copyWith(
+                                fontWeight: FontWeight.w500, fontSize: 15.sp),
+                          ),
+                          SizedBox(
+                            height: 5.h,
+                          ),
+                          Container(
+                            width: double.infinity,
+                            height: 140.h,
+                            decoration: BoxDecoration(
+                              color: CustomColor.secondaryColor,
+                              borderRadius: BorderRadius.circular(5.r),
+                            ),
+                            child: ListView.builder(
+                              itemCount: widget.lampiran.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (BuildContext context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(left: 10.w),
+                                  child: SizedBox(
+                                    child: Stack(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10.r),
+                                          child: Image.network(
+                                            widget.lampiran[index],
+                                            fit: BoxFit.cover,
+                                            width: 150,
+                                            height: 150,
+                                          ),
+                                        ),
+                                        // Align(
+                                        //   alignment:
+                                        //       Alignment.topRight,
+                                        //   child: GestureDetector(
+                                        //     onTap: () {
+                                        //        _removeImage(index);
+                                        //     },
+                                        //     child: Icon(
+                                        //       Icons.cancel_rounded,
+                                        //       size: 38.sp,
+                                        //       color: Colors.red,
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                           SizedBox(

@@ -77,7 +77,6 @@ class _ScreenSelectDosenState extends State<ScreenSelectDosen> {
         child: SingleChildScrollView(
           child: Container(
             color: CustomColor.white,
-            height: size.height,
             width: size.width,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 30.h),
@@ -250,6 +249,8 @@ class _ScreenSelectDosenState extends State<ScreenSelectDosen> {
                                       .doc(widget.uid)
                                       .update({"dospem": selectedDospem});
                                   fungsiDrdb();
+                                  MyCustomToast.successToast(
+                                      context, "Berhasil menetapkan dosen");
                                   setState(() {
                                     isLoading = false;
                                   });

@@ -68,7 +68,6 @@ class _ScreenDashboardState extends State<ScreenDashboard> {
         child: SingleChildScrollView(
           child: Container(
             color: CustomColor.white,
-            height: size.height,
             width: size.width,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 25.h),

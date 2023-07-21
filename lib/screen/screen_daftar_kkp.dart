@@ -79,7 +79,6 @@ class _ScreenDaftarKKPState extends State<ScreenDaftarKKP> {
         child: SingleChildScrollView(
           child: Container(
             color: CustomColor.white,
-            height: size.height,
             width: size.width,
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 15.h),
@@ -370,7 +369,8 @@ class _ScreenDaftarKKPState extends State<ScreenDaftarKKP> {
                                       "dospem": "",
                                       "pdf": "",
                                       "pdfName": "",
-                                      "tipe": "kkp"
+                                      "tipe": "kkp",
+                                      "lampiran": []
                                     });
                                     // ignore: use_build_context_synchronously
                                     MyCustomToast.successToast(

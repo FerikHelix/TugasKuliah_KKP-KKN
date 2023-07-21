@@ -54,7 +54,6 @@ class _ScreenDaftarBimbinganState extends State<ScreenDaftarBimbingan> {
           child: SingleChildScrollView(
         child: Container(
           color: CustomColor.white,
-          height: size.height,
           width: size.width,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 25),
@@ -124,6 +123,8 @@ class _ScreenDaftarBimbinganState extends State<ScreenDaftarBimbingan> {
                                           pembimbingLapangan: semudata[a]
                                                   ['pembimbingLapangan'] ??
                                               "-",
+                                          lampiran:
+                                              semudata[a]['lampiran'] ?? [],
                                         )),
                               );
                             },

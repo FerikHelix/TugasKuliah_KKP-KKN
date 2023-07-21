@@ -67,7 +67,7 @@ class _ScreenLoginState extends State<ScreenLogin> {
       );
       try {
         await FirebaseAuth.instance.signOut();
-        UserCredential userCredential =
+        UserCredential? userCredential =
             await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email.text.trim(),
           password: password.text.trim(),
@@ -143,11 +143,11 @@ class _ScreenLoginState extends State<ScreenLogin> {
     var size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            color: CustomColor.white,
-            height: size.height,
-            width: size.width,
+        child: Container(
+          color: CustomColor.white,
+          height: size.height,
+          width: size.width,
+          child: SingleChildScrollView(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 25.h),
               child: Form(
@@ -156,6 +156,9 @@ class _ScreenLoginState extends State<ScreenLogin> {
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(
+                      height: 160.h,
+                    ),
                     Center(
                       child: SizedBox(
                         height: 150.h,

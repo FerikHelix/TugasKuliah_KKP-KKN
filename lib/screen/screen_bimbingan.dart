@@ -30,6 +30,7 @@ class ScreenBimbingan extends StatefulWidget {
   final String namaPerusahaan;
   final String pembimbingLapangan;
   final String uid;
+  final List lampiran;
   const ScreenBimbingan(
       {super.key,
       required this.nameKetua,
@@ -50,7 +51,8 @@ class ScreenBimbingan extends StatefulWidget {
       required this.nama,
       required this.namaPerusahaan,
       required this.pembimbingLapangan,
-      required this.uid});
+      required this.uid,
+      required this.lampiran});
 
   @override
   State<ScreenBimbingan> createState() => _ScreenBimbinganState();
@@ -81,8 +83,10 @@ class _ScreenBimbinganState extends State<ScreenBimbingan> {
   void downloadFile(String url) async {
     Dio dio = Dio();
     try {
-      var dir = await getApplicationDocumentsDirectory();
-      String savePath = '${dir.path}/${widget.pdfName}';
+      var dir = await getExternalStorageDirectories();
+      String savePath = '${dir![0].path}/${widget.pdfName}';
+
+      debugPrint(savePath);
 
       var response = await dio.download(url, savePath);
       debugPrint("Download response: $response");
@@ -357,6 +361,64 @@ class _ScreenBimbinganState extends State<ScreenBimbingan> {
                                   ),
                                 ),
                               ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 15.h,
+                          ),
+                          Text(
+                            "Lampiran",
+                            style: CustomTextStyle.heading.copyWith(
+                                fontWeight: FontWeight.w500, fontSize: 15.sp),
+                          ),
+                          SizedBox(
+                            height: 5.h,
+                          ),
+                          Container(
+                            width: double.infinity,
+                            height: 140.h,
+                            decoration: BoxDecoration(
+                              color: CustomColor.secondaryColor,
+                              borderRadius: BorderRadius.circular(5.r),
+                            ),
+                            child: ListView.builder(
+                              itemCount: widget.lampiran.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (BuildContext context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(left: 10.w),
+                                  child: SizedBox(
+                                    child: Stack(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10.r),
+                                          child: Image.network(
+                                            widget.lampiran[index],
+                                            fit: BoxFit.cover,
+                                            width: 150,
+                                            height: 150,
+                                          ),
+                                        ),
+                                        // Align(
+                                        //   alignment:
+                                        //       Alignment.topRight,
+                                        //   child: GestureDetector(
+                                        //     onTap: () {
+                                        //        _removeImage(index);
+                                        //     },
+                                        //     child: Icon(
+                                        //       Icons.cancel_rounded,
+                                        //       size: 38.sp,
+                                        //       color: Colors.red,
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                           SizedBox(
@@ -755,6 +817,64 @@ class _ScreenBimbinganState extends State<ScreenBimbingan> {
                                   ),
                                 ],
                               ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 15.h,
+                          ),
+                          Text(
+                            "Lampiran",
+                            style: CustomTextStyle.heading.copyWith(
+                                fontWeight: FontWeight.w500, fontSize: 15.sp),
+                          ),
+                          SizedBox(
+                            height: 5.h,
+                          ),
+                          Container(
+                            width: double.infinity,
+                            height: 140.h,
+                            decoration: BoxDecoration(
+                              color: CustomColor.secondaryColor,
+                              borderRadius: BorderRadius.circular(5.r),
+                            ),
+                            child: ListView.builder(
+                              itemCount: widget.lampiran.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (BuildContext context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(left: 10.w),
+                                  child: SizedBox(
+                                    child: Stack(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10.r),
+                                          child: Image.network(
+                                            widget.lampiran[index],
+                                            fit: BoxFit.cover,
+                                            width: 150,
+                                            height: 150,
+                                          ),
+                                        ),
+                                        // Align(
+                                        //   alignment:
+                                        //       Alignment.topRight,
+                                        //   child: GestureDetector(
+                                        //     onTap: () {
+                                        //        _removeImage(index);
+                                        //     },
+                                        //     child: Icon(
+                                        //       Icons.cancel_rounded,
+                                        //       size: 38.sp,
+                                        //       color: Colors.red,
+                                        //     ),
+                                        //   ),
+                                        // ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                           SizedBox(
