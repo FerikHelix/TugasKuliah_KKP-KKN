@@ -1,10 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pdf/pdf.dart';
+import 'package:printing/printing.dart';
 import 'package:si_kkp_kkn/constant/color.dart';
 import 'package:si_kkp_kkn/constant/extensionCapitalize.dart';
 import 'package:si_kkp_kkn/constant/textStyle.dart';
+import 'package:si_kkp_kkn/model/rekapan_nilai_kkp_kkn.dart';
 import 'package:si_kkp_kkn/screen/screen_detail_kkpdankkn.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 class ScreenListKKPKKN extends StatefulWidget {
   const ScreenListKKPKKN({super.key});
@@ -20,6 +25,151 @@ class _ScreenListKKPKKNState extends State<ScreenListKKPKKN> {
     super.initState();
     getallkkpdankkn =
         FirebaseFirestore.instance.collection("daftar-kkn-kkp").snapshots();
+  }
+
+  Future<Uint8List> _generatePdf({
+    required PdfPageFormat pageType,
+    required List<RekapanNilai> datas,
+  }) async {
+    final pdf = pw.Document();
+    pdf.addPage(
+      pw.Page(
+        pageFormat: pageType,
+        orientation: pw.PageOrientation.landscape,
+        build: (context) => pw.Center(
+          child: pw.Column(
+            children: [
+              pw.Table(
+                  border: pw.TableBorder.all(color: PdfColors.black),
+                  defaultVerticalAlignment:
+                      pw.TableCellVerticalAlignment.middle,
+                  children: [
+                    pw.TableRow(children: [
+                      pw.Align(
+                          alignment: pw.Alignment.center,
+                          child: pw.Text("Rekapan Nilai KKP & KKN 2023")),
+                    ])
+                  ]),
+              pw.Table(
+                border: pw.TableBorder.all(color: PdfColors.black),
+                defaultVerticalAlignment: pw.TableCellVerticalAlignment.middle,
+                children: [
+                  pw.TableRow(
+                    children: [
+                      pw.Text("No"),
+                      pw.Text("Tipe"),
+                      pw.Text("Dosen Pembimbing"),
+                      pw.Text("Pembimbing Lapangan"),
+                      pw.Text("Nama Instansi"),
+                      pw.Text("Waktu Mulai"),
+                      pw.Text("Waktu Berakhir"),
+                      pw.Text("Nilai"),
+                      pw.Text("Nama Anggota"),
+                    ],
+                  ),
+                  // For data KKP
+                  for (int x = 0; x < datas.length; ++x) ...[
+                    if (datas[x].tipe == "kkn") ...[
+                      pw.TableRow(
+                        children: [
+                          pw.Align(
+                              alignment: pw.Alignment.centerRight,
+                              child: pw.Text((x + 1).toString())),
+                          pw.Align(
+                              alignment: pw.Alignment.centerRight,
+                              child: pw.Text(datas[x].tipe)),
+                          pw.Align(
+                              alignment: pw.Alignment.centerRight,
+                              child: pw.Text(datas[x].dosenPembimbing)),
+                          pw.Align(
+                              alignment: pw.Alignment.centerRight,
+                              child: pw.Text(datas[x].pembimbingLapangan)),
+                          pw.Align(
+                              alignment: pw.Alignment.centerRight,
+                              child: pw.Text(datas[x].namaInstansi)),
+                          pw.Align(
+                              alignment: pw.Alignment.centerRight,
+                              child: pw.Text(datas[x].waktuMulai)),
+                          pw.Align(
+                              alignment: pw.Alignment.centerRight,
+                              child: pw.Text(datas[x].waktuBerakhir)),
+                          pw.Align(
+                              alignment: pw.Alignment.centerRight,
+                              child: pw.Text(datas[x].nilai)),
+                          pw.Container(
+                            child: pw.Column(
+                              children: [
+                                for (final nama in datas[x].namaAnggota) ...[
+                                  pw.Align(
+                                      alignment: pw.Alignment.centerRight,
+                                      child: pw.Text(nama)),
+                                  pw.Divider(
+                                      height: 1,
+                                      thickness: 1,
+                                      color: PdfColors.black),
+                                ],
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ] else if (datas[x].tipe == "kkp") ...[
+                      pw.TableRow(
+                        children: [
+                          pw.Align(
+                              alignment: pw.Alignment.centerRight,
+                              child: pw.Text((x + 1).toString())),
+                          pw.Align(
+                              alignment: pw.Alignment.centerRight,
+                              child: pw.Text(datas[x].tipe)),
+                          pw.Align(
+                              alignment: pw.Alignment.centerRight,
+                              child: pw.Text(datas[x].dosenPembimbing)),
+                          pw.Align(
+                              alignment: pw.Alignment.centerRight,
+                              child: pw.Text(datas[x].pembimbingLapangan)),
+                          pw.Align(
+                              alignment: pw.Alignment.centerRight,
+                              child: pw.Text(datas[x].namaInstansi)),
+                          pw.Align(
+                              alignment: pw.Alignment.centerRight,
+                              child: pw.Text(datas[x].waktuMulai)),
+                          pw.Align(
+                              alignment: pw.Alignment.centerRight,
+                              child: pw.Text(datas[x].waktuBerakhir)),
+                          pw.Align(
+                              alignment: pw.Alignment.centerRight,
+                              child: pw.Text(datas[x].nilai)),
+                          pw.Align(
+                              alignment: pw.Alignment.centerRight,
+                              child: pw.Text(datas[x].namaAnggota[0])),
+                        ],
+                      ),
+                    ],
+                  ],
+
+                  // For data KKN
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    ); // Add a page to the PDF
+
+    return pdf.save();
+  }
+
+  Future<List<RekapanNilai>> _getDataKKPKKN() async {
+    try {
+      final kkpKKNRef =
+          await FirebaseFirestore.instance.collection("/daftar-kkn-kkp/").get();
+      return kkpKKNRef.docs
+          .map((json) => RekapanNilai.fromJson(json.data()))
+          .toList();
+    } on FirebaseException catch (error) {
+      throw Exception("Failed fetching data KKP & KKN");
+    }
   }
 
   @override
@@ -45,6 +195,23 @@ class _ScreenListKKPKKNState extends State<ScreenListKKPKKN> {
           style: CustomTextStyle.heading
               .copyWith(fontWeight: FontWeight.w700, fontSize: 18.sp),
         ),
+        actions: [
+          IconButton(
+            tooltip: "Print rekapan nilai semua siswa",
+            onPressed: () async {
+              await Printing.layoutPdf(
+                onLayout: (PdfPageFormat format) async => _generatePdf(
+                  pageType: PdfPageFormat.a4,
+                  datas: await _getDataKKPKKN(),
+                ),
+              );
+            },
+            icon: Icon(
+              Icons.print,
+              color: Colors.black,
+            ),
+          ),
+        ],
       ),
       body: SafeArea(
           child: SingleChildScrollView(
